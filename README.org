@@ -1,0 +1,16 @@
+* fshadow, an enhanced =cl-flet=
+
+  =fshadow= works exactly like =cl-flet=, except, within the context of
+  the temporary function definition, the symbol =this-fn= refers to
+  the original function. This allows you to inject new behaviors into
+  functions which are only called indirectly, or to which you have no
+  access.
+
+** Example
+
+#+BEGIN_SRC emacs-lisp
+  (fshadow ((+ (&rest numbers-or-markers)
+               ;; Sum of numbers-or-markers plus one
+               (apply 'this-fn (cons 1 numbers-or-markers))))
+    (+ 1 2 3))
+#+END_SRC
