@@ -45,18 +45,8 @@
          (orig (cadr (assoc sym saved)))
          (args (cadr binding))
          (body (cddr binding)))
-    `(,sym ,args (flet ((this-fn (&rest args)
-                                 (apply 'funcall ,orig args)))
-                   ,@body))))
-
-(defun fshadow* (saved binding)
-  "Wrap `flet' binding BINDING so the shadowed function is available."
-  (let* ((sym (car binding))
-         (orig (cadr (assoc sym saved)))
-         (args (cadr binding))
-         (body (cddr binding)))
-    `(,sym ,args (flet ((this-fn (&rest args)
-                                 (apply 'funcall ,orig args)))
+    `(,sym ,args (cl-flet ((this-fn (&rest args)
+                                    (apply 'funcall ,orig args)))
                    ,@body))))
 
 (defmacro fshadow (bindings &rest body)
